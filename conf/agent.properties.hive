@@ -1,0 +1,27 @@
+agent1.sources = source1
+agent1.channels = channel1
+agent1.sinks = sink1
+
+agent1.sources.source1.type = exec
+agent1.sources.source1.command = tail -F /tmp/flume-hive.data
+
+agent1.sinks.sink1.type = hive
+agent1.sinks.sink1.channel = channel1
+agent1.sinks.sink1.hive.metastore = thrift://127.0.0.1:9083
+agent1.sinks.sink1.hive.database = default
+agent1.sinks.sink1.hive.table = flumeTest
+agent1.sinks.sink1.useLocalTimeStamp = false
+agent1.sinks.sink1.round = true
+agent1.sinks.sink1.roundValue = 10
+agent1.sinks.sink1.roundUnit = minute
+agent1.sinks.sink1.serializer = DELIMITED
+agent1.sinks.sink1.serializer.delimiter = "," 
+agent1.sinks.sink1.serializer.serdeSeparator = ','
+agent1.sinks.sink1.serializer.fieldnames = id,message
+
+agent1.channels.channel1.type = FILE
+agent1.channels.channel1.transactionCapacity = 1000000
+agent1.channels.channel1.checkpointInterval = 30000
+agent1.channels.channel1.maxFileSize = 2146435071
+agent1.channels.channel1.capacity = 10000000
+agent1.sources.source1.channels = channel1
